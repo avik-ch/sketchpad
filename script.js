@@ -23,16 +23,11 @@ function populateGrid(gridSize) {
 
     for (let i = 0; i < gridSize; i++) {
         const gridRow = document.createElement('div');
-        gridRow.style.width = '100%';
-        gridRow.setAttribute("class", "flex");
-        gridRow.style.display = 'flex';
-        gridRow.style.flexDirection = 'row';
+        gridRow.classList.add("flex", "grid-row")
 
         for (let j = 0; j < gridSize; j++) {
             const pixel = document.createElement('div');
-            pixel.style.border = 'solid 0.5px black';
-            pixel.style.flex = 'auto';
-            pixel.style.aspectRatio = '1/1';
+            pixel.classList.add("pixel");
             pixel.addEventListener('mousedown', changeColor);
             pixel.addEventListener('mouseover', changeColor);
             gridRow.appendChild(pixel);
@@ -52,7 +47,11 @@ function changeColor(e) {
     if (randomMode) {
         paintColor = generateRandomColor();
     }
-    e.target.style.backgroundColor = paintColor;
+    if (shadingMode) {
+
+    } else {
+        e.target.style.backgroundColor = paintColor;
+    }
 }
 
 

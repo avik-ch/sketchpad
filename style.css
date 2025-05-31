@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0px;
     padding: 0px;
 }
@@ -45,3 +46,14 @@ button {
     font-size: 1.2rem;
 }
 
+.grid-row {
+    flex-direction: row;
+    width: 100%;
+}
+
+.pixel {
+    border: solid 0.5px black;
+    flex: auto;
+    aspect-ratio: 1/1;
+    background-color: white;
+}
