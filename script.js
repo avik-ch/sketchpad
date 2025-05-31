@@ -5,7 +5,6 @@ let colorMode = true;
 let randomMode = false;
 let eraseMode = false;
 
-const gridContainer = document.querySelector('.picture-frame');
 
 
 const colorPicker = document.querySelector('input');
@@ -14,9 +13,11 @@ colorPicker.oninput = e => paintColor = e.target.value;
 
 // Following lines are used to keep state of mouse click
 // within the drawing so that user can drag and draw
+const gridContainer = document.querySelector('.picture-frame');
 let isMouseDown = false;
 gridContainer.onmousedown = () => (isMouseDown = true);
 gridContainer.onmouseup = () => (isMouseDown = false);
+gridContainer.addEventListener('dragstart', (e) => e.preventDefault());
 
 
 /**
