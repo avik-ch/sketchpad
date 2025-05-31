@@ -8,7 +8,12 @@ let eraseMode = false;
 
 
 const colorPicker = document.querySelector('input');
-colorPicker.oninput = e => paintColor = e.target.value;
+colorPicker.oninput = e => {
+    paintColor = e.target.value;
+    colorMode = true;
+    randomMode = false;
+    eraseMode = false;
+};
 
 
 // Following lines are used to keep state of mouse click
