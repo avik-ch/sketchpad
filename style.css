@@ -1,0 +1,40 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.flex {
+    display: flex;
+}
+
+body {
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+.ui-container {
+    padding: 10px;
+    background-color: white;
+    width: fit-content;
+    height: fit-content;
+    border: solid 2px black;
+    border-radius: 8px;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.picture-frame {
+    flex-direction: column;
+    width: 100%;
+    border: solid 1px black;
+}
+
+.buttons {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
