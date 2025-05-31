@@ -56,4 +56,5 @@ button {
     flex: auto;
     aspect-ratio: 1/1;
     background-color: white;
+    opacity: 1;
 }

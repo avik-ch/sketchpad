@@ -1,15 +1,20 @@
 let paintColor = 'black';
-let previousColor = 'white';
 let defaultGridSize = 16;
+
+let colorMode = true;
 let randomMode = false;
-let isMouseDown = false;
-let shadingMode = false;
 let eraseMode = false;
 
 const gridContainer = document.querySelector('.picture-frame');
 
-// Following two lines are used to keep state of mouse click
+
+const colorPicker = document.querySelector('input');
+colorPicker.oninput = e => paintColor = e.target.value;
+
+
+// Following lines are used to keep state of mouse click
 // within the drawing so that user can drag and draw
+let isMouseDown = false;
 gridContainer.onmousedown = () => (isMouseDown = true);
 gridContainer.onmouseup = () => (isMouseDown = false);
 
@@ -28,8 +33,8 @@ function populateGrid(gridSize) {
         for (let j = 0; j < gridSize; j++) {
             const pixel = document.createElement('div');
             pixel.classList.add("pixel");
-            pixel.addEventListener('mousedown', changeColor);
-            pixel.addEventListener('mouseover', changeColor);
+            pixel.addEventListener('mousedown', paintPixel);
+            pixel.addEventListener('mouseover', paintPixel);
             gridRow.appendChild(pixel);
         }
         gridContainer.appendChild(gridRow);
@@ -42,50 +47,38 @@ function populateGrid(gridSize) {
  * @param {Event} e 
  * @returns None
  */
-function changeColor(e) {
+function paintPixel(e) {
     if (e.type === 'mouseover' && !isMouseDown) return;
+    let colorToUse = paintColor;
     if (randomMode) {
-        paintColor = generateRandomColor();
+        colorToUse = generateRandomColor();
     }
-    if (shadingMode) {
-
-    } else {
-        e.target.style.backgroundColor = paintColor;
+    if (eraseMode) {
+        colorToUse = 'white';
     }
+    e.target.style.backgroundColor = colorToUse;
 }
 
 
+// Event delegation to reduce number of listeners
 const buttons = document.querySelector('.buttons');
-
 buttons.addEventListener('click', (e) => {
     const button = e.target;
 
     switch (button.id) {
         case 'random':
-            randomMode = !randomMode;
-            if (randomMode) {
-                button.style.backgroundColor = 'rgb(90, 255, 75)';
-            } else {
-                button.style.backgroundColor = '#EFEFEF';
-                paintColor = 'black';
-            }
+            randomMode = true;
+            eraseMode = false;
+            colorMode = false;
             break;
-        case 'shading':
-            shadingMode = !shadingMode;
-            if (shadingMode) {
-                button.style.backgroundColor = 'rgb(90, 255, 75)'
-            } else {
-                button.style.backgroundColor = '#EFEFEF';
-            }
+        case 'color':
+            colorMode = true;
+            randomMode = false;
+            eraseMode = false;
             break;
         case 'eraser':
-            eraseMode = !eraseMode;
-            [paintColor, previousColor] = [previousColor, paintColor];
-            if (eraseMode) {
-                button.style.backgroundColor = 'rgb(90, 255, 75)';
-            } else {
-                button.style.backgroundColor = '#EFEFEF';
-            }
+            eraseMode = true;
+            randomMode = false;
             break;
         case 'clear':
             populateGrid(defaultGridSize);
@@ -101,7 +94,7 @@ buttons.addEventListener('click', (e) => {
             defaultGridSize = input;
             populateGrid(input);
     }
-})
+});
 
 
 /**
