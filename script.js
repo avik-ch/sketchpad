@@ -1,5 +1,6 @@
 let paintColor = 'black';
 let previousColor = 'white';
+let defaultGridSize = 16;
 let randomMode = false;
 let isMouseDown = false;
 let shadingMode = false;
@@ -18,7 +19,7 @@ gridContainer.onmouseup = () => (isMouseDown = false);
  * @param {number} gridSize Size of the grid
  */
 function populateGrid(gridSize) {
-    clearGrid();
+    gridContainer.innerHTML = '';
 
     for (let i = 0; i < gridSize; i++) {
         const gridRow = document.createElement('div');
@@ -40,13 +41,6 @@ function populateGrid(gridSize) {
     }
 }
 
-/**
- * Clears the grid to make new grid
- */
-function clearGrid() {
-    gridContainer.innerHTML = '';
-}
-
 
 /**
  * Fills individual pixel with color
@@ -55,7 +49,9 @@ function clearGrid() {
  */
 function changeColor(e) {
     if (e.type === 'mouseover' && !isMouseDown) return;
-
+    if (randomMode) {
+        paintColor = generateRandomColor();
+    }
     e.target.style.backgroundColor = paintColor;
 }
 
@@ -93,22 +89,31 @@ buttons.addEventListener('click', (e) => {
             }
             break;
         case 'clear':
-            clearGrid();
+            populateGrid(defaultGridSize);
             break;
         case 'change':
             let input = '';
             while (true) {
-                input = prompt("Enter grid size [max 100]", 16);
+                input = prompt("Enter grid size [max 100]", defaultGridSize);
                 if (input > 0 && input <= 100) {
                     break;
                 }
             }
+            defaultGridSize = input;
             populateGrid(input);
     }
 })
 
-function generateRandomColor() {
 
+/**
+ * Generates a random RGB value string and returns it
+ * @returns {string} rgb(r, g, b)
+ */
+function generateRandomColor() {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    return `rgb(${red}, ${green}, ${blue})`
 }
 
-populateGrid(16);
+populateGrid(defaultGridSize);
